@@ -1,0 +1,9 @@
+[submodule "dashboard"]
+	path = dashboard
+	url = git@github.com:tobiashendrickx/dev.mumodashboard.be.git
+[submodule "pipeline"]
+	path = pipeline
+	url = git@github.com:ajuvercr/mumo-pipeline.git
+[submodule "graphs"]
+	path = graphs
+	url = git@github.com:ajuvercr/mumo-graphs.git
