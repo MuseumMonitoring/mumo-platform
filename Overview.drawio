@@ -1,0 +1,67 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.2.15 Chrome/134.0.6998.205 Electron/35.2.2 Safari/537.36" version="26.2.15">
+  <diagram name="Page-1" id="CQPQeDBvcKvNIBpOPDx_">
+    <mxGraphModel dx="1681" dy="706" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="nh9HaDVKFcUQAAEDtmHv-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;" edge="1" parent="1" source="nh9HaDVKFcUQAAEDtmHv-4" target="nh9HaDVKFcUQAAEDtmHv-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nh9HaDVKFcUQAAEDtmHv-4" value="SQL" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="220" y="170" width="40" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nh9HaDVKFcUQAAEDtmHv-5" value="Docker Compose" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="200" y="100" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="nh9HaDVKFcUQAAEDtmHv-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nh9HaDVKFcUQAAEDtmHv-9" target="nh9HaDVKFcUQAAEDtmHv-11">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="260" />
+              <mxPoint x="285" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nh9HaDVKFcUQAAEDtmHv-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nh9HaDVKFcUQAAEDtmHv-9" target="nh9HaDVKFcUQAAEDtmHv-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="260" />
+              <mxPoint x="520" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nh9HaDVKFcUQAAEDtmHv-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nh9HaDVKFcUQAAEDtmHv-9" target="nh9HaDVKFcUQAAEDtmHv-21">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="260" />
+              <mxPoint x="410" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nh9HaDVKFcUQAAEDtmHv-9" value="Php&lt;div&gt;Dashboard&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="345" y="170" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nh9HaDVKFcUQAAEDtmHv-11" value="Solid&lt;div&gt;Identity Provider&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="300" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nh9HaDVKFcUQAAEDtmHv-14" value="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="405" y="270" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="nh9HaDVKFcUQAAEDtmHv-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;" edge="1" parent="1" source="nh9HaDVKFcUQAAEDtmHv-16" target="nh9HaDVKFcUQAAEDtmHv-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nh9HaDVKFcUQAAEDtmHv-16" value="Solid + LDES" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="300" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nh9HaDVKFcUQAAEDtmHv-20" value="2" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="500" y="270" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="nh9HaDVKFcUQAAEDtmHv-21" value="ACL generator&lt;div&gt;(authorization translator)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="300" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nh9HaDVKFcUQAAEDtmHv-25" value="3" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="290" y="270" width="20" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
