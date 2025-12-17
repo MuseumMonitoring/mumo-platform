@@ -42,6 +42,7 @@ services:
       DEBUG: rdfc
       groupHistory: http://php/history.php?groups
       userHistory: http://php/history.php?users
+      sensorHistory: http://php/history.php?sensors
       baseUrl: "http://api.local" 
       # baseUrl: "https://another.mumodashboard.be/" 
     networks:
