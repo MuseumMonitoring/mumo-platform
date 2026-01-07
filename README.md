@@ -1,17 +1,15 @@
 # MuMo - Multi-Modal Monitoring System
 
-MuMo is a comprehensive monitoring and data visualization platform built with PHP, JavaScript, and RDF technologies. It provides real-time sensor data collection, user management, and interactive dashboards for monitoring various environmental and operational metrics.
+MuMo is a comprehensive monitoring and data visualization platform that provides real-time sensor data collection, user management, and interactive dashboards for monitoring various environmental and operational metrics.
 
 ## Architecture Overview
 
-MuMo consists of several interconnected components:
+MuMo consists of several interconnected components orchestrated with Docker Compose:
 
 - **Dashboard** (PHP/Apache): Web interface for data visualization and system management
-- **Pipeline** (Node.js/RDF): Data processing pipeline using RDF Connect framework
+- **Pipeline** (Node.js/RDF): Data processing pipeline using RDF Connect framework  
 - **Database** (MySQL): Data storage for users, sensors, and measurements
 - **Nginx**: Reverse proxy and SSL termination
-
-All containers are connected through a shared public Docker network. Nginx is the main entry point and proxies requests to the appropriate backend services.
 
 ```
 Browser → Nginx → (PHP | Adminer | Solid | Pipeline)
@@ -24,87 +22,53 @@ Browser → Nginx → (PHP | Adminer | Solid | Pipeline)
 ```
 mumo-full/
 ├── dashboard/           # PHP web application
-│   ├── pages/          # PHP pages for different functionalities
+│   ├── pages/          # PHP pages and functionalities
 │   ├── assets/         # CSS, JS, images
 │   ├── handlers/        # API endpoints
-│   └── database.sql    # Database schema
+│   └── readme.md       # Detailed dashboard documentation
 ├── pipeline/           # RDF data processing pipeline
 │   ├── pipeline/       # TTL pipeline definitions
 │   ├── proc/          # Custom processors
-│   └── Dockerfile     # Node.js container build
+│   └── README.md      # Pipeline technical documentation
 ├── data/              # LDES data storage
 ├── nginx.conf         # Nginx configuration
 ├── docker-compose.yml # Container orchestration
 └── settings.php       # Configuration file
 ```
 
-## Services
+## Services Overview
 
 ### nginx
-**Role:** Reverse proxy and public entrypoint.
-- **Image:** nginx:alpine
+- **Role:** Reverse proxy and SSL termination
 - **Ports:** 80:80, 443:443 (SSL)
-- **Configuration:** ./nginx.conf → /etc/nginx/conf.d/default.conf
-- **Responsibilities:** Routes requests to backend services, SSL termination
+- **Configuration:** Routes requests to backend services
 
 ### solid
-**Role:** Runs the main RDF/Linked Data pipeline (authentication-oriented).
-- **Built with:** RDF-Connect
-- **Pipeline:** ./pipeline/pipeline/auth-pipeline.ttl
-- **Components:** Community Solid Server, ACL generator, Solid Server Identity Provider
-- **Internal port:** 3000
-- **Environment variables:**
-  - `groupHistory`: http://php/history.php?groups
-  - `userHistory`: http://php/history.php?users
-  - `sensorHistory`: http://php/history.php?sensors
-  - `baseUrl`: Base URL for the application
+- **Role:** RDF/Linked Data pipeline with authentication
+- **Technology:** RDF-Connect framework
+- **Pipeline:** `./pipeline/pipeline/auth-pipeline.ttl`
+- **Components:** Community Solid Server, ACL generator, Identity Provider
+- **Documentation:** See [pipeline/README.md](pipeline/README.md#authentication--solid-server)
 
-### pipeline
-**Role:** Runs the main data-processing RDF pipeline.
-- **Built with:** RDF-Connect
-- **Pipeline:** ./pipeline/pipeline/pipeline.ttl
-- **Environment variables:**
-  - `groupHistory`: http://php/history.php?groups
-  - `userHistory`: http://php/history.php?users
-  - `sensorHistory`: http://php/history.php?sensors
-  - `dataHistory`: http://php/history.php?data
-- **Responsibilities:** Fetches historical data and transforms into LDES format
+### pipeline  
+- **Role:** Main data-processing RDF pipeline
+- **Technology:** RDF-Connect framework
+- **Pipeline:** `./pipeline/pipeline/pipeline.ttl`
+- **Documentation:** See [pipeline/README.md](pipeline/README.md) for detailed architecture
 
 ### db (MySQL)
-**Role:** Relational database for the dashboard.
+- **Role:** Relational database
 - **Image:** mysql:8.0
-- **Internal port:** 3306
-- **Initialization:** ./dashboard/database_withDeviceChannelIndex.sql
-- **Data:** User data, sensor data, measurements
+- **Initialization:** `./dashboard/database_withDeviceChannelIndex.sql`
 
 ### php
-**Role:** PHP-based web backend for the dashboard.
-- **Built from:** ./dashboard/
-- **Internal port:** 80
-- **Mounts:** Dashboard source code, custom settings.php
-- **Responsibilities:** Serves web dashboard, provides API endpoints for pipeline
+- **Role:** PHP web backend
+- **Built from:** `./dashboard/`
+- **Documentation:** See [dashboard/readme.md](dashboard/readme.md) for complete setup guide
 
 ### adminer
-**Role:** Web-based database management UI.
-- **Image:** adminer
-- **Internal port:** 8080
-- **Responsibilities:** Database inspection and management
-
-## Key Features
-
-### Dashboard Features
-- **User Management:** User registration, authentication, and role-based access
-- **Sensor Management:** Add, configure, and monitor various sensors
-- **Data Visualization:** Real-time graphs and historical data analysis
-- **Alert System:** Configurable alerts for sensor thresholds
-- **CSV Import/Export:** Bulk data management capabilities
-- **Multi-tenant Support:** Group-based data isolation
-
-### Pipeline Features
-- **RDF Processing:** Converts sensor data to RDF format
-- **LDES Support:** Linked Data Event Streams for time-series data
-- **Authentication:** WebID-based authentication for Solid compliance
-- **Data Mapping:** Transforms raw sensor data to semantic formats
+- **Role:** Database management UI
+- **Access:** Internal only (port 8080)
 
 ## Quick Start
 
@@ -114,53 +78,40 @@ mumo-full/
 
 ### Installation
 
-1. **Clone the repository with submodules:**
+1. **Clone with submodules:**
 ```bash
 git clone --recursive <repository-url>
 cd mumo-full
-```
-
-2. **Initialize submodules:**
-```bash
 git submodule update --init --recursive
 ```
 
-3. **Configure settings:**
+2. **Configure settings:**
 ```bash
+# Copy and edit settings configuration
 cp settings.php.example settings.php
-# Edit settings.php with your configuration
+# See dashboard/readme.md for detailed configuration
 ```
 
-4. **Start the application:**
+3. **Start the application:**
 ```bash
 docker-compose up --build
 ```
 
-5. **Access the application:**
+4. **Access the application:**
 - Dashboard: http://localhost
 - Adminer: http://localhost:8080
 
 ## Configuration
 
-### Database Settings
-Edit `settings.php` to configure database connection:
+### Main Configuration
+- **`settings.php`**: Database connection, domain settings, cluster name
+- **`docker-compose.yml`**: Service definitions and environment variables
+- **`nginx.conf`**: Reverse proxy configuration
 
-```php
-$con = mysqli_connect("db", "user", "userpass", "mumo_test", 3306);
-$url = "http://localhost"; // Base URL
-$domain = "localhost";    // Domain for email addresses
-$clustername = "Mumo";    // Display name
-```
-
-### Environment Variables
-The pipeline uses these environment variables (configured in docker-compose.yml):
-
-- `DEBUG`: RDF debug mode (default: rdfc)
-- `groupHistory`: URL for group history API
-- `userHistory`: URL for user history API  
-- `sensorHistory`: URL for sensor history API
-- `baseUrl`: Base URL for the application
-- `dataHistory`: URL for data history API
+### Detailed Setup Guides
+- **Dashboard Configuration**: See [dashboard/readme.md](dashboard/readme.md#settingsphp) for complete settings.php setup
+- **Pipeline Configuration**: See [pipeline/README.md](pipeline/README.md#configuration) for environment variables
+- **Database Setup**: See [dashboard/readme.md](dashboard/readme.md#database-setup) for initial database configuration
 
 ## Production Deployment
 
@@ -401,70 +352,43 @@ The Solid container needs to make requests to itself using the public endpoint. 
 ## Development
 
 ### Local Development
-
 For development without SSL:
 1. Use the default `docker-compose.yml` configuration
 2. Access via http://localhost
 3. Adminer available at http://localhost:8080
 
-### Pipeline Development
+### Component Development
+- **Dashboard Development**: See [dashboard/readme.md](dashboard/readme.md) for PHP application development
+- **Pipeline Development**: See [pipeline/README.md](pipeline/README.md#usage) for RDF pipeline modifications
+- **Database Schema**: See [dashboard/database.sql](dashboard/database.sql) for complete schema
 
-The RDF pipeline uses Turtle (.ttl) files for configuration:
-- `pipeline/pipeline.ttl`: Main data processing pipeline
-- `pipeline/auth-pipeline.ttl`: Authentication pipeline
-- `pipeline/proc/`: Custom processor implementations
-
-To modify pipeline behavior:
-1. Edit TTL files in `pipeline/pipeline/`
-2. Rebuild pipeline container: `docker-compose build pipeline`
-3. Restart services: `docker-compose up -d`
-
-### Database Schema
-
-The database schema is defined in `dashboard/database.sql`. Key tables:
-- `users`: User accounts and authentication
-- `sensors`: Sensor definitions and configurations
-- `measurements`: Time-series sensor data
-- `groups`: User groups for multi-tenancy
-- `alerts`: Alert configurations and triggers
-
-## API Endpoints
-
-The dashboard provides several API endpoints:
+### API Endpoints
+The dashboard provides these endpoints used by the pipeline:
 - `/history.php?users`: User history data
-- `/history.php?groups`: Group history data
+- `/history.php?groups`: Group history data  
 - `/history.php?sensors`: Sensor history data
-- `/endpoint.php`: General API endpoint
+- `/history.php?data`: Measurement data
+- `/endpoint.php`: TTN webhook endpoint
 - `/export.php`: Data export functionality
 
 ## Component Interactions
 
-All services are connected to a shared Docker network named public.
-This allows containers to communicate using service names as hostnames:
-- http://php/...
-- http://db:3306
-- http://solid:3000
-
-How Components Interact:
-
-![Alt text](./Overview.drawio.svg)
+All services communicate via a shared Docker network:
+- **Internal URLs**: `http://php/`, `http://db:3306`, `http://solid:3000`
+- **Architecture Overview**: See [Overview.drawio.svg](Overview.drawio.svg)
 
 ## Troubleshooting
 
 ### Common Issues
+1. **Submodule issues**: `git submodule update --init --recursive`
+2. **Database connection**: Check MySQL logs and credentials
+3. **Pipeline failures**: See [pipeline/README.md](pipeline/README.md) for debugging
+4. **SSL errors**: Verify certificate paths and domain configuration
 
-1. **Submodule not found**: Run `git submodule update --init --recursive`
-2. **Database connection failed**: Check MySQL container logs and credentials
-3. **Pipeline not starting**: Verify Node.js build and dependencies
-4. **SSL errors**: Ensure certificates are properly configured and paths are correct
-
-### Logs
-
-Check container logs for debugging:
-
+### Debug Commands
 ```bash
 docker-compose logs nginx      # Nginx/proxy issues
-docker-compose logs php        # PHP application errors
+docker-compose logs php        # PHP application errors  
 docker-compose logs db         # Database issues
 docker-compose logs solid      # Pipeline problems
 ```
