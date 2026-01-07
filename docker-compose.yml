@@ -23,8 +23,6 @@ services:
     volumes:
       - ./data/:/app/pipeline/ldes/
       - ./pipeline/pipeline/:/app/pipeline/
-      - ./pipeline/lib/:/app/lib/
-      - ./pipeline/node_modules/:/app/node_modules/
     environment:
       DEBUG: rdfc
       groupHistory: http://php/history.php?groups
