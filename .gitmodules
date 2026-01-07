@@ -3,7 +3,7 @@
 	url = git@github.com:tobiashendrickx/dev.mumodashboard.be.git
 [submodule "pipeline"]
 	path = pipeline
-	url = git@github.com:ajuvercr/mumo-pipeline.git
+	url = git@github.com:MuseumMonitoring/pipeline.git
 [submodule "graphs"]
 	path = graphs
-	url = git@github.com:ajuvercr/mumo-graphs.git
+	url = git@github.com:MuseumMonitoring/graphs.git
